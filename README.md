@@ -9,6 +9,9 @@
 and concurrency into one inspectable visual score, an optional WebAudio performance, and
 engineering evidence you can export.
 
+**Local-first input. Deterministic diagnostics. Visual, audio, and portable evidence.**
+
+[Status: v0.1.0](https://github.com/KanadeK/pipesonata/releases/tag/v0.1.0) ·
 [Live demo](https://kanadek.github.io/pipesonata/) ·
 [中文说明](README.zh-CN.md) ·
 [Input format](docs/INPUT_FORMAT.md) ·
@@ -54,6 +57,16 @@ npm run demo
 
 This writes four generated files to `demo-output/` and refreshes the checked-in README screenshot.
 See [Reproducible demo](docs/DEMO.md) for the generated file list and manual acceptance steps.
+
+## Interfaces
+
+- **Web UI:** the primary interface for fixture selection, local file import, timeline inspection,
+  opt-in playback, diagnostics, and four export controls.
+- **Automation CLI:** npm and Make targets expose formatting, tests, benchmark, demo, packaging, and
+  release checks without a backend service.
+- **Core API:** pure TypeScript functions under `src/core/` and adapters under `src/adapters/` are
+  directly testable. v0.1.0 keeps the npm package private, so this source API is not yet a
+  semver-stable published library.
 
 ## Import GitHub Actions data
 
@@ -163,7 +176,7 @@ provenance, and checksum assets. `release-check` validates the initial milestone
 committer identity, archive contents, checksums, clean provenance, and a browser smoke test from the
 extracted static archive.
 
-The current suite has 33 Vitest tests and 5 real Chromium paths. Core coverage is 99.01% lines,
+The current suite has 35 Vitest tests and 5 real Chromium paths. Core coverage is 99.01% lines,
 100% functions, 90.5% branches, and 99.04% statements on the release baseline. Coverage gates are
 80% for every metric. See [Benchmark](docs/BENCHMARK.md) for the reproducible microbenchmark method
 and measured results.

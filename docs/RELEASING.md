@@ -31,9 +31,9 @@ release jobs never use it.
 ```text
 pipesonata-v0.1.0-web-static.tar.gz
 pipesonata-v0.1.0-web-demo.tar.gz
-pipesonata-v0.1.0-source.tar.gz
-pipesonata-v0.1.0-sbom.cdx.json
-pipesonata-v0.1.0-provenance.json
+pipesonata-v0.1.0-source-any.tar.gz
+pipesonata-v0.1.0-sbom-any.cdx.json
+pipesonata-v0.1.0-provenance-any.json
 SHA256SUMS.txt
 ```
 

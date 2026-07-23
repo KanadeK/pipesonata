@@ -14,6 +14,9 @@ import {
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { existingWorkingTreeFiles } from "./git_files.mjs";
+
+// Release artifacts are generated only inside dist-release.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packageJson = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
 const version = packageJson.version;
@@ -54,7 +57,13 @@ async function normalizeTimes(target) {
 
 async function archiveDirectory(directory, output) {
   await normalizeTimes(directory);
-  run("tar", ["-czf", output, "-C", path.dirname(directory), path.basename(directory)]);
+  run("tar", [
+    "-czf",
+    path.relative(root, output),
+    "-C",
+    path.relative(root, path.dirname(directory)),
+    path.basename(directory),
+  ]);
 }
 
 async function copyTrackedSource(destination) {
@@ -70,7 +79,10 @@ async function copyTrackedSource(destination) {
   if (listed.status !== 0) {
     throw new Error(`git ls-files failed.\n${listed.stderr.toString("utf8")}`);
   }
-  const files = listed.stdout.toString("utf8").split("\0").filter(Boolean).sort();
+  const files = existingWorkingTreeFiles(
+    root,
+    listed.stdout.toString("utf8").split("\0").filter(Boolean),
+  ).sort();
   for (const relativeFile of files) {
     const source = path.join(root, relativeFile);
     const target = path.join(destination, relativeFile);
@@ -146,7 +158,7 @@ const archives = [
   },
   {
     directory: sourceRoot,
-    filename: `${prefix}-source.tar.gz`,
+    filename: `${prefix}-source-any.tar.gz`,
   },
 ];
 for (const archive of archives) {
@@ -174,11 +186,11 @@ const sbom = run(
     },
   },
 );
-const sbomFilename = `${prefix}-sbom.cdx.json`;
+const sbomFilename = `${prefix}-sbom-any.cdx.json`;
 await writeFile(path.join(releaseDirectory, sbomFilename), sbom, "utf8");
 
 const treeState = run("git", ["status", "--porcelain"]).trim() ? "dirty" : "clean";
-const provenanceFilename = `${prefix}-provenance.json`;
+const provenanceFilename = `${prefix}-provenance-any.json`;
 await writeFile(
   path.join(releaseDirectory, provenanceFilename),
   `${JSON.stringify(

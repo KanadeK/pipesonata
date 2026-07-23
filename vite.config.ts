@@ -11,6 +11,9 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     include: ["tests/unit/**/*.test.ts", "tests/integration/**/*.test.ts"],
+    // The release-tooling tests spawn tar and Git subprocesses. Running test
+    // files serially keeps the verification run reliable on Windows runners.
+    fileParallelism: false,
     coverage: {
       provider: "v8",
       reporter: ["text", "json-summary", "html"],

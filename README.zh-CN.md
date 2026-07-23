@@ -8,6 +8,9 @@
 **听见 CI 在哪里等待。** PipeSonata 把 GitHub Actions 一次运行中的耗时、排队、重试、失败和
 并行度转化为可检查的可视乐谱、可选的 WebAudio 演奏，以及可以导出的工程证据。
 
+**本地优先输入。确定性诊断。视觉、音频与可携带证据。**
+
+[当前状态：v0.1.0](https://github.com/KanadeK/pipesonata/releases/tag/v0.1.0) ·
 [在线演示](https://kanadek.github.io/pipesonata/) ·
 [English](README.md) ·
 [输入格式](docs/INPUT_FORMAT.md) ·
@@ -53,6 +56,13 @@ npm run demo
 
 该命令会在 `demo-output/` 生成四类文件，并刷新 README 使用的真实界面截图。
 生成文件清单和人工验收步骤见[可复现实演](docs/DEMO.md)。
+
+## 使用界面
+
+- **Web 界面：**用于选择样例、导入本地文件、检查时间线、主动播放声音、查看诊断并执行四种导出。
+- **自动化命令行：**npm 和 Make 任务提供格式化、测试、基准、演示、打包与发布检查，无需后端服务。
+- **核心 API：**`src/core/` 中的纯 TypeScript 函数和 `src/adapters/` 中的适配器可以直接测试。
+  v0.1.0 的 npm 包保持 private，因此这套源码 API 暂不承诺已发布库的语义化版本兼容性。
 
 ## 导入 GitHub Actions 数据
 
@@ -158,7 +168,7 @@ npm run release-check
 来源证明和校验和文件。`release-check` 会验证初始里程碑历史、作者与提交者身份、归档内容、
 校验和、干净来源状态，以及从解压静态包启动的浏览器烟测。
 
-当前发布基线包含 33 项 Vitest 测试和 5 条真实 Chromium 路径。核心代码行覆盖率 99.01%、
+当前发布基线包含 35 项 Vitest 测试和 5 条真实 Chromium 路径。核心代码行覆盖率 99.01%、
 函数覆盖率 100%、分支覆盖率 90.5%、语句覆盖率 99.04%，各项门槛均为 80%。基准方法与实测
 数据见[性能基准](docs/BENCHMARK.md)。
 

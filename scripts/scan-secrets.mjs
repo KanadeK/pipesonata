@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { existingWorkingTreeFiles } from "./git_files.mjs";
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const git = spawnSync("git", ["ls-files", "-z", "--cached", "--others", "--exclude-standard"], {
   cwd: root,
@@ -33,9 +35,13 @@ const patterns = [
   ["private key", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/g],
 ];
 
-const files = git.stdout.toString("utf8").split("\0").filter(Boolean);
+const files = existingWorkingTreeFiles(
+  root,
+  git.stdout.toString("utf8").split("\0").filter(Boolean),
+);
 const findings = [];
 for (const relativeFile of files) {
+  const absoluteFile = path.join(root, relativeFile);
   if (
     path.basename(relativeFile) !== ".env.example" &&
     path.basename(relativeFile).startsWith(".env")
@@ -46,7 +52,7 @@ for (const relativeFile of files) {
   if (binaryExtensions.has(path.extname(relativeFile).toLowerCase())) {
     continue;
   }
-  const content = await readFile(path.join(root, relativeFile), "utf8");
+  const content = await readFile(absoluteFile, "utf8");
   for (const [label, pattern] of patterns) {
     pattern.lastIndex = 0;
     if (pattern.test(content)) {

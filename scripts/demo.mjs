@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { preview } from "vite";
 
+// The demo uses a project-specific loopback port to avoid parallel-task collisions.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const assetDirectory = path.join(root, "docs", "assets");
 const outputDirectory = path.join(root, "demo-output");

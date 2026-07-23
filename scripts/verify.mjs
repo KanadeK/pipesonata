@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
 
+// Keep the aggregate gate usable on Windows, macOS, and Linux.
 const npmCommand = process.env.npm_execpath ? process.execPath : "npm";
 const npmPrefix = process.env.npm_execpath ? [process.env.npm_execpath] : [];
 const steps = [

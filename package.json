@@ -28,13 +28,13 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "npm run build && playwright test",
     "benchmark": "node scripts/benchmark.mjs",
-    "demo": "npm run build && node scripts/generate-demo.mjs",
+    "demo": "npm run build && node scripts/demo.mjs",
     "docs:check": "node scripts/check-docs.mjs",
     "scan:secrets": "node scripts/scan-secrets.mjs",
     "audit:dependencies": "npm audit --audit-level=high --registry=https://registry.npmjs.org",
-    "verify": "node scripts/run-verify.mjs",
-    "package": "npm run build && node scripts/generate-demo.mjs --skip-doc-screenshot && node scripts/package-release.mjs",
-    "release-check": "node scripts/release-check.mjs"
+    "verify": "node scripts/verify.mjs",
+    "package": "npm run build && node scripts/demo.mjs --skip-doc-screenshot && node scripts/package_release.mjs",
+    "release-check": "npm run verify && npm run package && node scripts/release_check.mjs"
   },
   "engines": {
     "node": ">=22.12.0"

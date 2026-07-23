@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 
 import { chromium } from "playwright";
 
+// Development mode validates mechanics before the final clean release commit.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const developmentMode = process.argv.includes("--allow-development");
 const packageJson = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
@@ -36,9 +37,9 @@ const requiredFiles = [
 const requiredAssets = [
   `${prefix}-web-static.tar.gz`,
   `${prefix}-web-demo.tar.gz`,
-  `${prefix}-source.tar.gz`,
-  `${prefix}-sbom.cdx.json`,
-  `${prefix}-provenance.json`,
+  `${prefix}-source-any.tar.gz`,
+  `${prefix}-sbom-any.cdx.json`,
+  `${prefix}-provenance-any.json`,
   "SHA256SUMS.txt",
 ];
 
@@ -147,11 +148,38 @@ assert(
   (await readFile(path.join(root, "src", "core", "version.ts"), "utf8")).includes('"0.1.0"'),
   "Application version does not match package.json.",
 );
+assert(
+  (await readFile(path.join(root, "CHANGELOG.md"), "utf8")).includes("## [0.1.0] - 2026-07-23"),
+  "CHANGELOG.md does not contain the v0.1.0 release section.",
+);
 for (const requiredFile of requiredFiles.filter(
   (file) => !developmentMode || file !== "docs/releases/v0.1.0.md",
 )) {
   await stat(path.join(root, requiredFile));
 }
+
+const forbiddenMarkers = [
+  "TO" + "DO",
+  "FIX" + "ME",
+  "Not" + "Implemented",
+  "place" + "holder",
+  "coming" + " soon",
+  "lorem" + " ipsum",
+];
+const markerScan = spawnSync(
+  "git",
+  ["grep", "-nEi", forbiddenMarkers.join("|"), "--", ":(exclude)docs/ROADMAP.md"],
+  {
+    cwd: root,
+    encoding: "utf8",
+  },
+);
+assert(
+  markerScan.status === 1,
+  markerScan.status === 0
+    ? `Unfinished marker found:\n${markerScan.stdout}`
+    : `Unfinished marker scan failed:\n${markerScan.error?.message || markerScan.stderr}`,
+);
 
 const branch = run("git", ["branch", "--show-current"]).trim();
 assert(
@@ -244,7 +272,7 @@ try {
 }
 
 const provenance = JSON.parse(
-  await readFile(path.join(releaseDirectory, `${prefix}-provenance.json`), "utf8"),
+  await readFile(path.join(releaseDirectory, `${prefix}-provenance-any.json`), "utf8"),
 );
 assert(provenance.version === packageJson.version, "Provenance version mismatch.");
 assert(
