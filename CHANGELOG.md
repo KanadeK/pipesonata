@@ -9,3 +9,5 @@ All notable changes to PipeSonata are documented in this file.
   hotspots, stable score notes, and credential-safe exports.
 - Bundled fast, serial-bottleneck, and flaky MIT fixtures plus combined-file and GitHub run/jobs
   adapters.
+- Delivered the responsive analysis workbench with D3 timing score, optional WebAudio playback,
+  local file import, theme controls, and SVG, PNG, MIDI-like JSON, and report exports.
