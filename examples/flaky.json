@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "provider": "github-actions",
+    "repository": "pipesonata-examples/flaky"
+  },
+  "expected": {
+    "criticalPath": ["prepare", "e2e", "report"],
+    "maxParallelism": 2,
+    "conclusion": "failure"
+  },
+  "run": {
+    "id": 3001,
+    "name": "Flaky browser suite",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-07-23T10:00:00.000Z",
+    "run_started_at": "2026-07-23T10:00:03.000Z",
+    "updated_at": "2026-07-23T10:01:23.000Z",
+    "head_sha": "3001300130013001300130013001300130013001"
+  },
+  "jobs": [
+    {
+      "id": 3101,
+      "name": "prepare",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-07-23T10:00:00.000Z",
+      "started_at": "2026-07-23T10:00:03.000Z",
+      "completed_at": "2026-07-23T10:00:13.000Z",
+      "needs": [],
+      "steps": [
+        {
+          "number": 1,
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-07-23T10:00:03.000Z",
+          "completed_at": "2026-07-23T10:00:07.000Z"
+        },
+        {
+          "number": 2,
+          "name": "npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-07-23T10:00:07.000Z",
+          "completed_at": "2026-07-23T10:00:13.000Z"
+        }
+      ]
+    },
+    {
+      "id": 3102,
+      "name": "unit",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-07-23T10:00:00.000Z",
+      "started_at": "2026-07-23T10:00:13.000Z",
+      "completed_at": "2026-07-23T10:00:55.000Z",
+      "run_attempt": 2,
+      "needs": ["prepare"],
+      "steps": [
+        {
+          "number": 1,
+          "name": "npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-07-23T10:00:13.000Z",
+          "completed_at": "2026-07-23T10:00:17.000Z"
+        },
+        {
+          "number": 2,
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "retry_count": 1,
+          "started_at": "2026-07-23T10:00:17.000Z",
+          "completed_at": "2026-07-23T10:00:55.000Z"
+        }
+      ]
+    },
+    {
+      "id": 3103,
+      "name": "e2e",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-07-23T10:00:00.000Z",
+      "started_at": "2026-07-23T10:00:13.000Z",
+      "completed_at": "2026-07-23T10:01:10.000Z",
+      "run_attempt": 3,
+      "needs": ["prepare"],
+      "steps": [
+        {
+          "number": 1,
+          "name": "npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-07-23T10:00:13.000Z",
+          "completed_at": "2026-07-23T10:00:18.000Z"
+        },
+        {
+          "number": 2,
+          "name": "Playwright tests",
+          "status": "completed",
+          "conclusion": "failure",
+          "retry_count": 2,
+          "started_at": "2026-07-23T10:00:18.000Z",
+          "completed_at": "2026-07-23T10:01:10.000Z"
+        }
+      ]
+    },
+    {
+      "id": 3104,
+      "name": "report",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-07-23T10:00:00.000Z",
+      "started_at": "2026-07-23T10:01:10.000Z",
+      "completed_at": "2026-07-23T10:01:23.000Z",
+      "needs": ["unit", "e2e"],
+      "steps": [
+        {
+          "number": 1,
+          "name": "Merge reports",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-07-23T10:01:10.000Z",
+          "completed_at": "2026-07-23T10:01:20.000Z"
+        },
+        {
+          "number": 2,
+          "name": "Upload artifact",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-07-23T10:01:20.000Z",
+          "completed_at": "2026-07-23T10:01:23.000Z"
+        }
+      ]
+    }
+  ]
+}
