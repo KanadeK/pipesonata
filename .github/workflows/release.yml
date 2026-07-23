@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Verify, package, and publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Match tag and package version
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          test "$GITHUB_REF_NAME" = "$expected"
+
+      - name: Run all quality gates
+        run: npm run verify
+
+      - name: Build release assets
+        run: npm run package
+
+      - name: Extract and smoke test release assets
+        run: npm run release-check
+
+      - name: Create or refresh GitHub release
+        if: github.ref_type == 'tag'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes="docs/releases/$GITHUB_REF_NAME.md"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist-release/* --clobber
+          elif test -f "$notes"; then
+            gh release create "$GITHUB_REF_NAME" dist-release/* \
+              --verify-tag \
+              --title "PipeSonata $GITHUB_REF_NAME" \
+              --notes-file "$notes"
+          else
+            gh release create "$GITHUB_REF_NAME" dist-release/* \
+              --verify-tag \
+              --title "PipeSonata $GITHUB_REF_NAME" \
+              --generate-notes
+          fi

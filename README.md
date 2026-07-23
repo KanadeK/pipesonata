@@ -149,6 +149,20 @@ npm run build
 npm run benchmark
 ```
 
+The release entry points used by CI are:
+
+```bash
+npm run verify
+npm run audit:dependencies
+npm run package
+npm run release-check
+```
+
+`verify` executes eight local quality gates. `package` creates versioned static, demo, source, SBOM,
+provenance, and checksum assets. `release-check` validates the initial milestone history, author and
+committer identity, archive contents, checksums, clean provenance, and a browser smoke test from the
+extracted static archive.
+
 The current suite has 33 Vitest tests and 5 real Chromium paths. Core coverage is 99.01% lines,
 100% functions, 90.5% branches, and 99.04% statements on the release baseline. Coverage gates are
 80% for every metric. See [Benchmark](docs/BENCHMARK.md) for the reproducible microbenchmark method
@@ -214,5 +228,6 @@ automation.
 
 Focused issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the
 [Code of Conduct](CODE_OF_CONDUCT.md). Security reports follow [SECURITY.md](SECURITY.md).
+Maintainers can follow [Releasing](docs/RELEASING.md).
 
 PipeSonata is released under the [MIT License](LICENSE).

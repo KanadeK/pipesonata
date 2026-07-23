@@ -15,3 +15,6 @@ All notable changes to PipeSonata are documented in this file.
   keyboard navigation, theme persistence, reduced motion, and narrow screens.
 - Completed English and Simplified Chinese guides, executable input and output references, a
   generated production screenshot, demo artifacts, and a reproducible core benchmark.
+- Added locked CI, dependency and credential auditing, verified Pages deployment, tag release
+  automation, versioned tar archives, CycloneDX SBOM, provenance, SHA-256 checksums, and extracted
+  browser smoke testing.

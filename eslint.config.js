@@ -34,4 +34,13 @@ export default tseslint.config(
       ...reactRefresh.configs.vite.rules,
     },
   },
+  {
+    ...js.configs.recommended,
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: "module",
+      globals: globals.node,
+    },
+  },
 );

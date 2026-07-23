@@ -5,6 +5,15 @@
   "description": "Turn CI workflow timing, failure, and concurrency into an actionable visual score.",
   "type": "module",
   "license": "MIT",
+  "author": "KanadeK <1207048080@qq.com>",
+  "homepage": "https://kanadek.github.io/pipesonata/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KanadeK/pipesonata.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KanadeK/pipesonata/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -20,7 +29,12 @@
     "test:e2e": "npm run build && playwright test",
     "benchmark": "node scripts/benchmark.mjs",
     "demo": "npm run build && node scripts/generate-demo.mjs",
-    "docs:check": "node scripts/check-docs.mjs"
+    "docs:check": "node scripts/check-docs.mjs",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "audit:dependencies": "npm audit --audit-level=high --registry=https://registry.npmjs.org",
+    "verify": "node scripts/run-verify.mjs",
+    "package": "npm run build && node scripts/generate-demo.mjs --skip-doc-screenshot && node scripts/package-release.mjs",
+    "release-check": "node scripts/release-check.mjs"
   },
   "engines": {
     "node": ">=22.12.0"

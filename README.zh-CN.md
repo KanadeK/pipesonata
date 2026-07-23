@@ -145,6 +145,19 @@ npm run build
 npm run benchmark
 ```
 
+CI 使用的发布入口如下：
+
+```bash
+npm run verify
+npm run audit:dependencies
+npm run package
+npm run release-check
+```
+
+`verify` 会执行 8 道本地质量门禁。`package` 会生成带版本号的静态站点、演示、源码、SBOM、
+来源证明和校验和文件。`release-check` 会验证初始里程碑历史、作者与提交者身份、归档内容、
+校验和、干净来源状态，以及从解压静态包启动的浏览器烟测。
+
 当前发布基线包含 33 项 Vitest 测试和 5 条真实 Chromium 路径。核心代码行覆盖率 99.01%、
 函数覆盖率 100%、分支覆盖率 90.5%、语句覆盖率 99.04%，各项门槛均为 80%。基准方法与实测
 数据见[性能基准](docs/BENCHMARK.md)。
@@ -199,5 +212,6 @@ run 接口描述工作流运行，jobs 接口包含任务和步骤。也可以�
 
 欢迎提交范围清晰的 Issue 和 Pull Request。请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 和
 [行为准则](CODE_OF_CONDUCT.md)。安全问题请按 [SECURITY.md](SECURITY.md) 报告。
+维护者可参考[发布流程](docs/RELEASING.md)。
 
 PipeSonata 采用 [MIT License](LICENSE) 开源。

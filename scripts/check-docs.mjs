@@ -16,6 +16,7 @@ const documents = [
   "docs/INPUT_FORMAT.md",
   "docs/OUTPUT_FORMATS.md",
   "docs/PRIVACY_AND_SECURITY.md",
+  "docs/RELEASING.md",
 ];
 
 const missing = [];

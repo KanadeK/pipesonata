@@ -35,10 +35,12 @@ try {
   await page.goto(baseUrl, { waitUntil: "networkidle" });
   await page.getByRole("heading", { level: 1, name: "Hear where CI waits." }).waitFor();
 
-  await page.screenshot({
-    path: path.join(assetDirectory, "pipesonata-demo.png"),
-    animations: "disabled",
-  });
+  if (!process.argv.includes("--skip-doc-screenshot")) {
+    await page.screenshot({
+      path: path.join(assetDirectory, "pipesonata-demo.png"),
+      animations: "disabled",
+    });
+  }
 
   const exports = [
     ["SVG", "pipesonata-v0.1.0-fast-score.svg"],
@@ -68,7 +70,9 @@ try {
     "utf8",
   );
 
-  console.log(`Demo screenshot: ${path.relative(root, assetDirectory)}/pipesonata-demo.png`);
+  if (!process.argv.includes("--skip-doc-screenshot")) {
+    console.log(`Demo screenshot: ${path.relative(root, assetDirectory)}/pipesonata-demo.png`);
+  }
   console.log(`Demo exports: ${path.relative(root, outputDirectory)}`);
 } finally {
   await browser.close();
