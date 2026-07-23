@@ -11,3 +11,7 @@ All notable changes to PipeSonata are documented in this file.
   adapters.
 - Delivered the responsive analysis workbench with D3 timing score, optional WebAudio playback,
   local file import, theme controls, and SVG, PNG, MIDI-like JSON, and report exports.
+- Added production-browser coverage for deterministic fixtures, local imports, four real downloads,
+  keyboard navigation, theme persistence, reduced motion, and narrow screens.
+- Completed English and Simplified Chinese guides, executable input and output references, a
+  generated production screenshot, demo artifacts, and a reproducible core benchmark.
