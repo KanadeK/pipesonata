@@ -1,0 +1,63 @@
+:root {
+  color: #e9eeeb;
+  background: #101314;
+  font-family:
+    "IBM Plex Sans",
+    "Segoe UI Variable",
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100dvh;
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.bootstrap-shell {
+  display: grid;
+  min-height: 100dvh;
+  align-content: center;
+  gap: 1rem;
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 3rem clamp(1.25rem, 5vw, 5rem);
+}
+
+.bootstrap-shell h1,
+.bootstrap-shell p {
+  margin: 0;
+}
+
+.bootstrap-shell h1 {
+  font-size: clamp(3rem, 10vw, 7rem);
+  letter-spacing: -0.07em;
+}
+
+.bootstrap-shell p {
+  max-width: 42rem;
+  color: #aeb8b2;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.bootstrap-kicker {
+  color: #d4f15a !important;
+  font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
